@@ -99,7 +99,7 @@ func TestPlan(t *testing.T) {
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	cmd, err := n.Plan(ctx, PlanOptions{Path: "/home/vano/go/nixpacks-go/testing"})
+	cmd := n.Plan(ctx, PlanOptions{Path: "/home/vano/go/nixpacks-go/testing"})
 	if err != nil {
 		t.Fatal(err)
 	}
