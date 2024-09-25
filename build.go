@@ -12,6 +12,8 @@ func (n Nixpacks) Build(ctx context.Context, opt BuildOptions) (*BuildCmd, error
 
 	cmd := exec.CommandContext(ctx, n.commandPath, BuildCommand, opt.Path)
 	cmd.Args = append(cmd.Args, opt.ToArgs()...)
+	cmd.Stdout = opt.LogsWriter
+	cmd.Stderr = opt.LogsWriter
 
 	return &BuildCmd{
 		cmd: cmd,
@@ -34,4 +36,14 @@ func (c *BuildCmd) Result() (BuildOutput, error) {
 	n.IsBrokenImage = err != nil
 	n.Parse()
 	return n, err
+}
+
+func (c *BuildCmd) ResultAsync() error {
+	if err := c.cmd.Run(); err != nil {
+		if err.Error() == "signal: killed" {
+			return err
+		}
+		return err
+	}
+	return nil
 }

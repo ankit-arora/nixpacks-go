@@ -2,6 +2,7 @@ package nixpacks
 
 import (
 	"errors"
+	"io"
 )
 
 type (
@@ -48,6 +49,8 @@ type (
 		Config string
 		//Do not error when no start command is set
 		NoErrorWithoutStartCommand bool
+		//Logs writer for output logs
+		LogsWriter io.Writer
 	}
 
 	Env struct {
